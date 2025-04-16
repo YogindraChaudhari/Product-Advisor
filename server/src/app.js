@@ -8,7 +8,19 @@ const healthRoutes = require("./routes/healthRoutes");
 const app = express();
 
 // Middleware
-app.use(cors());
+// app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "http://localhost:5173",
+      "https://product-advisor-red.vercel.app/login",
+      "https://product-advisor-red.vercel.app/",
+      "https://product-advisor-red.vercel.app",
+    ], // Allow local and production frontEnd URLs
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"], // Allowed HTTP methods
+    credentials: true, // Allow cookies and other credentials
+  })
+);
 app.use(express.json());
 
 // Routes
