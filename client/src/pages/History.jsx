@@ -3,8 +3,8 @@ import { useAuth } from "../context/AuthContext";
 import toast from "react-hot-toast";
 import { Pencil, Trash2 } from "lucide-react";
 import Modal from "../components/Modal";
-import { motion, AnimatePresence } from "framer-motion";
-import { ENDPOINTS } from "../config/api"; // Import the API endpoints
+import { AnimatePresence } from "framer-motion";
+import { ENDPOINTS } from "../config/api";
 
 export default function History() {
   const { user } = useAuth();
@@ -21,15 +21,30 @@ export default function History() {
   const fetchHistory = async () => {
     setLoading(true);
     try {
-      // Use the correct API endpoint - fetch from /api/advice/:user_id (not /api/history)
-      const res = await fetch(`${ENDPOINTS.ADVICE}/${user.id}`);
-      if (!res.ok) throw new Error("Failed to fetch history");
+      console.log("Fetching history from:", `${ENDPOINTS.ADVICE}/${user.id}`);
+
+      const res = await fetch(`${ENDPOINTS.ADVICE}/${user.id}`, {
+        method: "GET",
+        credentials: "include", // Include credentials for cross-site requests
+        headers: {
+          "Content-Type": "application/json",
+          // You may need to add authorization headers if your API requires it
+        },
+      });
+
+      if (!res.ok) {
+        console.error("Error response:", res.status, res.statusText);
+        throw new Error(
+          `Failed to fetch history: ${res.status} ${res.statusText}`
+        );
+      }
 
       const data = await res.json();
+      console.log("History data received:", data);
       setHistory(data);
     } catch (error) {
       console.error("History fetch error:", error);
-      toast.error("Failed to fetch history");
+      toast.error(`Failed to fetch history: ${error.message}`);
     } finally {
       setLoading(false);
     }
@@ -39,18 +54,22 @@ export default function History() {
     try {
       const res = await fetch(`${ENDPOINTS.ADVICE}/${deleteModal.id}`, {
         method: "DELETE",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ user_id: user.id }),
       });
 
-      if (!res.ok) throw new Error("Delete failed");
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.error || "Delete failed");
+      }
 
       toast.success("Deleted!");
       setDeleteModal({ open: false, id: null });
       fetchHistory();
     } catch (error) {
       console.error("Delete error:", error);
-      toast.error("Delete failed");
+      toast.error(`Delete failed: ${error.message}`);
     }
   };
 
@@ -60,6 +79,7 @@ export default function History() {
     try {
       const res = await fetch(`${ENDPOINTS.ADVICE}/${renameModal.id}`, {
         method: "PATCH",
+        credentials: "include",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           user_id: user.id,
@@ -67,14 +87,17 @@ export default function History() {
         }),
       });
 
-      if (!res.ok) throw new Error("Rename failed");
+      if (!res.ok) {
+        const errorData = await res.json().catch(() => ({}));
+        throw new Error(errorData.error || "Rename failed");
+      }
 
       toast.success("Title updated!");
       setRenameModal({ open: false, id: null, title: "" });
       fetchHistory();
     } catch (error) {
       console.error("Rename error:", error);
-      toast.error("Rename failed");
+      toast.error(`Rename failed: ${error.message}`);
     }
   };
 
@@ -91,7 +114,13 @@ export default function History() {
   };
 
   useEffect(() => {
-    if (user) fetchHistory();
+    if (user && user.id) {
+      console.log("User authenticated, fetching history");
+      fetchHistory();
+    } else {
+      console.log("No user or user ID available");
+      setLoading(false);
+    }
   }, [user]);
 
   return (
