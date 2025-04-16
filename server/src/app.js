@@ -17,8 +17,8 @@ app.use(
       "https://product-advisor-red.vercel.app/",
       "https://product-advisor-red.vercel.app",
     ], // Allow local and production frontEnd URLs
-    // methods: ["GET", "POST", "PUT", "DELETE", "PATCH"], // Allowed HTTP methods
-    // credentials: true, // Allow cookies and other credentials
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH"], // Allowed HTTP methods
+    credentials: true, // Allow cookies and other credentials
   })
 );
 app.use(express.json());
