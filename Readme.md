@@ -9,7 +9,7 @@ Product Advisor is a modern web application that uses state-of-the-art AI to hel
 *   **Intelligent Analysis**: Structured reports covering core verdicts, pros, cons, and final recommendations.
 *   **Advice History**: Keep track of all your past consultations and product reports.
 *   **Secure Authentication**: User accounts and data protection via Supabase.
-*   **Modern UI**: Built with React, Tailwind CSS, Framer Motion, and Lucide Icons.
+*   **Modern UI**: Built with React, Tailwind CSS, Framer Motion
 
 ## 🛠️ How it Works
 
