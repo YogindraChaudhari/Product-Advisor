@@ -1,62 +1,32 @@
-# 🧠 Product Advisor — AI-Powered Recommendation App
+# AI Product Advisor
 
-An intelligent product recommendation web app built using **React**, **Node.js**, **Express**, **Supabase**, and **OpenAI/Gemini LLMs**. Users can input product queries, receive tailored AI advice, manage history, and install the app as a PWA.
+Product Advisor is a modern web application that uses state-of-the-art AI to help users make smarter purchasing decisions in seconds. No more endless scrolling through thousands of conflicting reviews—get instant, structured expert advice.
 
----
+## � Features
 
-## 📦 Tech Stack
+*   **Multi-Model AI Support**: Choose between specialized agents like OpenAI (GPT-4o), Google (Gemini), and Ultra-Fast Groq (Llama 3).
+*   **Dual Light/Dark Mode**: Premium, aesthetic UI with a robust theme-switching system.
+*   **Intelligent Analysis**: Structured reports covering core verdicts, pros, cons, and final recommendations.
+*   **Advice History**: Keep track of all your past consultations and product reports.
+*   **Secure Authentication**: User accounts and data protection via Supabase.
+*   **Modern UI**: Built with React, Tailwind CSS, Framer Motion, and Lucide Icons.
 
-| Tech              | Description                          |
-| ----------------- | ------------------------------------ |
-| React + Vite      | Frontend UI                          |
-| Supabase          | Auth + Database                      |
-| OpenAI API        | AI text generation                   |
-| Gemini API        | Google AI fallback/alternative model |
-| Node.js + Express | Backend API for advice & auth logic  |
-| Zustand           | Lightweight state management         |
-| Tailwind CSS      | Utility-first styling                |
-| react-hot-toast   | UX feedback (toasts)                 |
-| Vercel + Render   | Deployment platforms                 |
+## 🛠️ How it Works
 
----
+1.  **Input Product**: Paste a product URL (Amazon, Flipkart, etc.) or upload a photo of the item you're interested in.
+2.  **Select Expert**: Pick the AI consultant that best fits your needs.
+3.  **Get Report**: Receive a comprehensive, formatted analysis to help you decide if it's worth the buy.
 
-## 🧠 Features
+## 💻 Tech Stack
 
-### ✅ Phase 1: Authentication
+*   **Frontend**: React, Vite, Tailwind CSS, Framer Motion
+*   **Backend**: Node.js, Express
+*   **Database & Auth**: Supabase
+*   **AI Integration**: OpenAI SDK, Google Generative AI, Groq API
 
-- Register / Login / Logout
-- Supabase email-based auth
+## ⚙️ Installation
 
-### ✅ Phase 2: Protected Routes & Navbar
-
-- Dashboard, Profile, History pages
-- Private routing using context
-
-### ✅ Phase 3: AI Advisor (LLM Integration)
-
-- Generate advice from:
-  - 🔹 OpenAI (ChatGPT)
-  - 🔹 Gemini (Google AI)
-  - 🔁 Auto fallback if one fails
-- Store prompt + result + model used in Supabase
-
-### ✅ Phase 4: Advice History
-
-- View all past queries
-- Rename / delete advice
-- Model tag for each response
-
-### ✅ Phase 5: Profile Management
-
-- Update name
-- Reset password via email
-- Delete history
-- Delete account (via secure backend)
-
-### ✅ Phase 6: PWA Enhancement
-
-- Installable on mobile/desktop
-- Custom install prompt
-- Offline-capable with service worker
-
----
+1.  **Clone the repo**: `git clone https://github.com/YogindraChaudhari/Product-Advisor.git`
+2.  **Install dependencies**: `npm install` (in both `/client` and root)
+3.  **Setup Environment**: Create `.env` files with your respective API keys (OpenAI, Gemini, Groq, Supabase).
+4.  **Run Locally**: `npm run dev`
