@@ -5,6 +5,7 @@ const {
   generateGroqResponse,
   generateDemoResponse,
 } = require("../utils/ai-providers");
+const { enrichPromptWithWebData } = require("../utils/crawler");
 
 const saveAdvice = async (prompt, result, user_id, title, provider) => {
   const supabase = getSupabaseClient();
@@ -58,27 +59,30 @@ const generateAdvice = async (
   let result = null;
   let modelUsed = provider;
 
+  // Enrich prompt with web data if URLs are present
+  const enrichedPrompt = await enrichPromptWithWebData(prompt);
+
   try {
     if (provider === "openai") {
-      result = await generateOpenAIResponse(prompt);
+      result = await generateOpenAIResponse(enrichedPrompt);
     } else if (provider === "gemini") {
-      result = await generateGeminiResponse(prompt);
+      result = await generateGeminiResponse(enrichedPrompt);
     } else if (provider === "groq") {
-      result = await generateGroqResponse(prompt);
+      result = await generateGroqResponse(enrichedPrompt);
     } else if (provider === "demo") {
-      result = await generateDemoResponse(prompt);
+      result = await generateDemoResponse(enrichedPrompt);
     } else if (provider === "auto") {
       try {
-        result = await generateGeminiResponse(prompt);
+        result = await generateGeminiResponse(enrichedPrompt);
         modelUsed = "gemini";
       } catch (err) {
         console.warn("Gemini failed, trying OpenAI:", err.message);
         try {
-          result = await generateOpenAIResponse(prompt);
+          result = await generateOpenAIResponse(enrichedPrompt);
           modelUsed = "openai";
         } catch (err2) {
           console.warn("OpenAI failed, falling back to Demo Mode:", err2.message);
-          result = await generateDemoResponse(prompt);
+          result = await generateDemoResponse(enrichedPrompt);
           modelUsed = "demo";
         }
       }

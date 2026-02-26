@@ -17,4 +17,8 @@ module.exports = {
     serviceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY,
     secretKey: process.env.SUPABASE_SECRET_KEY,
   },
+  crawlers: {
+    firecrawlApiKey: process.env.FIRECRAWL_API_KEY,
+    jinaApiKey: process.env.JINA_API_KEY,
+  },
 };
